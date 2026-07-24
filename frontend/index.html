@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireFlow - Find Jobs & Build Your Career</title>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- App Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- 1. PUBLIC LANDING VIEW -->
+  <section id="landing-section" class="landing-section">
+    <!-- Navbar -->
+    <nav class="landing-navbar">
+      <div class="landing-container nav-flex">
+        <div class="logo" onclick="showLandingHome()">
+          <i class="fa-solid fa-bolt"></i>
+          <span>HireFlow</span>
+        </div>
+        <div class="nav-links">
+          <a href="#categories-heading" class="landing-link">Categories</a>
+          <a href="#stats-heading" class="landing-link">Stats</a>
+          <a href="#featured-heading" class="landing-link">Explore Jobs</a>
+        </div>
+        <div class="nav-actions">
+          <button id="nav-signin-btn" class="btn btn-outline" onclick="openAuthModal('login')">Sign In</button>
+          <button id="nav-dashboard-btn" class="btn btn-primary hidden" onclick="enterDashboard()">
+            Dashboard <i class="fa-solid fa-gauge-high"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="landing-hero">
+      <div class="landing-container hero-grid">
+        <div class="hero-content">
+          <div class="badge badge-indigo hero-badge"><i class="fa-solid fa-rocket"></i> Internship Backend Project</div>
+          <h1>Find the right opportunity.<br><span class="gradient-text">Build the career you deserve.</span></h1>
+          <p class="hero-sub">HireFlow is a professional recruitment workspace designed to streamline employment. Secure profile matching, application lifecycle trackers, and employer metrics all in one place.</p>
+          
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large" onclick="scrollToFeaturedJobs()">
+              Explore Opportunities <i class="fa-solid fa-arrow-down"></i>
+            </button>
+            <button class="btn btn-outline btn-large" onclick="openAuthModal('register')">
+              For Recruiters <i class="fa-solid fa-briefcase"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-graphic">
+          <div class="floating-card glow-card">
+            <div class="logo"><i class="fa-solid fa-bolt"></i> HireFlow</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Secure REST Platform</div>
+            <div style="margin-top:16px; display:flex; gap:6px;">
+              <span class="badge badge-info">JWT Auth</span>
+              <span class="badge badge-success">MySQL</span>
+            </div>
+          </div>
+          
+          <div class="floating-card tracker-card">
+            <div class="tracker-header">
+              <strong>Senior Developer Role</strong>
+              <span class="badge badge-warning">Interview</span>
+            </div>
+            <div class="tracker-timeline" style="margin-top:12px;">
+              <span class="dot active"></span>
+              <span class="line active"></span>
+              <span class="dot active"></span>
+              <span class="line active"></span>
+              <span class="dot active"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Statistics Section -->
+    <section id="stats-heading" class="landing-stats">
+      <div class="landing-container">
+        <div class="stats-grid-landing">
+          <div class="landing-stat-item">
+            <h2 id="landing-stat-jobs">5+</h2>
+            <p>Active Job Openings</p>
+          </div>
+          <div class="landing-stat-item">
+            <h2 id="landing-stat-employers">3+</h2>
+            <p>Seeded Test Accounts</p>
+          </div>
+          <div class="landing-stat-item">
+            <h2 id="landing-stat-hires">100%</h2>
+            <p>Functional Backend APIs</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories-heading" class="landing-categories">
+      <div class="landing-container">
+        <div class="section-title-wrap">
+          <h2>Popular Categories</h2>
+          <p>Explore opportunities matching your professional expertise.</p>
+        </div>
+        <div class="categories-grid">
+          <div class="category-card" onclick="setLandingCategoryFilter('Engineering')">
+            <div class="cat-icon"><i class="fa-solid fa-code"></i></div>
+            <h3>Engineering</h3>
+            <p>Backend, Front-end, DevOps</p>
+          </div>
+          <div class="category-card" onclick="setLandingCategoryFilter('Design')">
+            <div class="cat-icon"><i class="fa-solid fa-palette"></i></div>
+            <h3>Design</h3>
+            <p>UI/UX, Product, Graphic</p>
+          </div>
+          <div class="category-card" onclick="setLandingCategoryFilter('Marketing')">
+            <div class="cat-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h3>Marketing</h3>
+            <p>Growth, SEO, Copywriting</p>
+          </div>
+          <div class="category-card" onclick="setLandingCategoryFilter('QA')">
+            <div class="cat-icon"><i class="fa-solid fa-list-check"></i></div>
+            <h3>Quality Assurance</h3>
+            <p>Jest, Cypress, Selenium</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Listings Section -->
+    <section id="featured-heading" class="landing-featured">
+      <div class="landing-container">
+        <div class="section-title-wrap flex-title">
+          <div>
+            <h2>Explore Open Postings</h2>
+            <p>Apply directly or save listings using your Candidate profile.</p>
+          </div>
+          <div class="landing-search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="landing-search-input" placeholder="Search title or keyword..." oninput="triggerLandingSearch()">
+          </div>
+        </div>
+
+        <div id="landing-jobs-list" class="grid-layout">
+          <!-- Dynamic landing jobs -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <div class="landing-container footer-grid">
+        <div>
+          <div class="logo"><i class="fa-solid fa-bolt"></i> HireFlow</div>
+          <p class="tagline" style="text-align:left; font-size:0.85rem;">Modern recruitment management console.</p>
+        </div>
+        <div>
+          <h4>Project Links</h4>
+          <ul class="footer-links">
+            <li><a href="#featured-heading">Browse Jobs</a></li>
+            <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+            <li><a href="#" onclick="openAuthModal('register')">Register Profile</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Tech Stack Details</h4>
+          <p style="font-size:0.82rem; color:var(--text-muted);">
+            Node.js + Express REST API<br>
+            MySQL Relational DB<br>
+            JWT Bearer Authentication
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 HireFlow Internship Portal. All rights reserved.
+      </div>
+    </footer>
+  </section>
+
+  <!-- 2. MAIN SYSTEM DASHBOARD LAYOUT -->
+  <section id="main-section" class="main-section hidden">
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo" onclick="showLandingHome()">
+          <i class="fa-solid fa-bolt"></i>
+          <span>HireFlow</span>
+        </div>
+      </div>
+
+      <!-- Navigation Menus (Dynamic) -->
+      <nav class="sidebar-nav">
+        <!-- Back to Public Site -->
+        <div class="nav-group">
+          <a href="#" class="nav-item" onclick="showLandingHome()">
+            <i class="fa-solid fa-house"></i> Public Portal
+          </a>
+        </div>
+
+        <!-- Candidate Navigation -->
+        <div class="nav-group candidate-nav-group hidden">
+          <div class="nav-heading">Candidate Workspace</div>
+          <a href="#" class="nav-item active" onclick="navigateTo('jobs-view')">
+            <i class="fa-solid fa-briefcase"></i> Search & Apply
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('my-applications-view')">
+            <i class="fa-regular fa-file-lines"></i> My Applications
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('saved-jobs-view')">
+            <i class="fa-regular fa-bookmark"></i> Saved Listings
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('profile-view')">
+            <i class="fa-regular fa-user"></i> Professional Profile
+          </a>
+        </div>
+
+        <!-- Recruiter Navigation -->
+        <div class="nav-group recruiter-nav-group hidden">
+          <div class="nav-heading">Recruiter Console</div>
+          <a href="#" class="nav-item" onclick="navigateTo('recruiter-dash')">
+            <i class="fa-solid fa-chart-pie"></i> Analytics Dashboard
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('recruiter-jobs')">
+            <i class="fa-solid fa-list-check"></i> Postings Manager
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('post-job-view')">
+            <i class="fa-solid fa-plus"></i> Post a Job
+          </a>
+        </div>
+
+        <!-- Admin Navigation -->
+        <div class="nav-group admin-nav-group hidden">
+          <div class="nav-heading">System Admin</div>
+          <a href="#" class="nav-item" onclick="navigateTo('admin-dash')">
+            <i class="fa-solid fa-chart-line"></i> Global Analytics
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('admin-users')">
+            <i class="fa-solid fa-users-gear"></i> User Directory
+          </a>
+          <a href="#" class="nav-item" onclick="navigateTo('admin-jobs')">
+            <i class="fa-solid fa-shield-halved"></i> Moderation Panel
+          </a>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar"><i class="fa-regular fa-user"></i></div>
+          <div class="user-info">
+            <span id="user-display-name" class="user-name">Loading...</span>
+            <span id="user-display-role" class="user-role-tag">Candidate</span>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="main-content">
+      <header class="main-header">
+        <h1 id="view-title">Search Jobs</h1>
+        <div class="header-actions">
+          <span id="current-date" class="date-text"></span>
+        </div>
+      </header>
+
+      <div class="view-panel">
+        
+        <!-- View 1: Jobs Browsing (Candidate) -->
+        <div id="jobs-view" class="view-container">
+          <div class="search-filter-card">
+            <div class="search-row">
+              <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="job-search-input" placeholder="Search by title, category, keywords..." oninput="triggerSearch()">
+              </div>
+            </div>
+            <div class="filters-row">
+              <select id="filter-location" onchange="triggerSearch()">
+                <option value="All Locations">All Locations</option>
+              </select>
+              <select id="filter-type" onchange="triggerSearch()">
+                <option value="All Types">All Types</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Remote">Remote</option>
+                <option value="Internship">Internship</option>
+              </select>
+              <select id="filter-category" onchange="triggerSearch()">
+                <option value="All Categories">All Categories</option>
+              </select>
+              <select id="filter-experience" onchange="triggerSearch()">
+                <option value="All Levels">All Levels</option>
+                <option value="Entry Level">Entry Level</option>
+                <option value="Mid Level">Mid Level</option>
+                <option value="Senior Level">Senior Level</option>
+                <option value="Lead/Executive">Lead/Executive</option>
+              </select>
+              <button class="btn btn-outline reset-filters-btn" onclick="resetFilters()">
+                <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <div id="jobs-list" class="grid-layout">
+            <div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading jobs...</div>
+          </div>
+        </div>
+
+        <!-- View 2: Job Details -->
+        <div id="job-details-view" class="view-container hidden">
+          <button class="back-link" onclick="goBackToJobs()">
+            <i class="fa-solid fa-arrow-left"></i> Back to listing
+          </button>
+          
+          <div class="job-detail-grid">
+            <div class="job-detail-main card animate-slide-up">
+              <div class="job-detail-header">
+                <div>
+                  <h2 id="detail-title" class="job-title-large">Job Title</h2>
+                  <div class="company-name-tag" id="detail-company"><i class="fa-regular fa-building"></i> Company</div>
+                </div>
+                <div class="job-action-buttons">
+                  <button id="save-job-btn" class="btn btn-outline" onclick="toggleSaveCurrentJob()">
+                    <i class="fa-regular fa-bookmark"></i> Bookmark
+                  </button>
+                  <button id="apply-job-btn" class="btn btn-primary" onclick="openApplyModal()">
+                    Apply Now <i class="fa-solid fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="detail-tags flex-wrap">
+                <span class="badge badge-info" id="detail-type">Full-time</span>
+                <span class="badge badge-indigo" id="detail-level">Mid Level</span>
+                <span class="badge badge-success" id="detail-salary">$100k - $120k</span>
+                <span class="badge badge-muted" id="detail-location"><i class="fa-solid fa-location-dot"></i> Remote</span>
+              </div>
+
+              <hr class="divider">
+
+              <h3>Job Description</h3>
+              <p class="description-text" id="detail-description">Description text...</p>
+
+              <h3>Requirements</h3>
+              <p class="description-text" id="detail-requirements">Requirements text...</p>
+            </div>
+
+            <div class="job-detail-sidebar card animate-slide-up">
+              <h3>Job Overview</h3>
+              <ul class="overview-list">
+                <li>
+                  <i class="fa-solid fa-calendar-days"></i>
+                  <div>
+                    <span>Posted Date</span>
+                    <strong id="detail-posted">July 2026</strong>
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-layer-group"></i>
+                  <div>
+                    <span>Category</span>
+                    <strong id="detail-category">Engineering</strong>
+                  </div>
+                </li>
+                <li>
+                  <i class="fa-solid fa-envelope-open-text"></i>
+                  <div>
+                    <span>Contact Email</span>
+                    <strong id="detail-email">recruiter@company.com</strong>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 3: Candidate Applications (Candidate) -->
+        <div id="my-applications-view" class="view-container hidden">
+          <div class="card card-table">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Job Role</th>
+                    <th>Compensation</th>
+                    <th>Submission Details</th>
+                    <th>Status Progress Tracker</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="applications-table-body">
+                  <!-- Dynamic applications rows here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 4: Saved Jobs (Candidate) -->
+        <div id="saved-jobs-view" class="view-container hidden">
+          <div id="saved-jobs-list" class="grid-layout">
+            <!-- Dynamic saved jobs -->
+          </div>
+        </div>
+
+        <!-- View 5: Candidate Profile (Candidate) -->
+        <div id="profile-view" class="view-container hidden">
+          <div class="card max-w-xl animate-slide-up">
+            <h2>Professional Profile</h2>
+            <p class="section-desc">Manage the credentials shared with recruiters when submitting job applications.</p>
+            
+            <form onsubmit="handleSaveProfile(event)" class="profile-grid-form">
+              <div class="input-group">
+                <label for="profile-title"><i class="fa-solid fa-user-tag"></i> Professional Title</label>
+                <input type="text" id="profile-title" required placeholder="e.g. Senior Software Engineer">
+              </div>
+              <div class="input-group">
+                <label for="profile-experience"><i class="fa-solid fa-award"></i> Years of Experience</label>
+                <input type="number" id="profile-experience" required min="0" value="0">
+              </div>
+              <div class="input-group">
+                <label for="profile-skills"><i class="fa-solid fa-code"></i> Skills (Comma Separated)</label>
+                <input type="text" id="profile-skills" required placeholder="JavaScript, Node.js, Express, MySQL">
+              </div>
+              <div class="input-group">
+                <label for="profile-resume"><i class="fa-solid fa-file-pdf"></i> Resume Link / PDF Download URL</label>
+                <input type="url" id="profile-resume" required placeholder="https://drive.google.com/your-resume-pdf">
+              </div>
+              <div class="input-group col-span-2">
+                <label for="profile-bio"><i class="fa-solid fa-address-card"></i> Brief Biography</label>
+                <textarea id="profile-bio" rows="6" placeholder="Describe your achievements, projects, and domain specialization..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-large col-span-2 profile-submit-btn">
+                Save Profile Changes <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- View 6: Recruiter Dashboard (Recruiter) -->
+        <div id="recruiter-dash" class="view-container hidden">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon icon-blue"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">Total Job Listings</span>
+                <h3 id="recruiter-total-jobs" class="stat-value">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-green"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">Active Postings</span>
+                <h3 id="recruiter-active-jobs" class="stat-value">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-yellow"><i class="fa-solid fa-file-signature"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">Applications Received</span>
+                <h3 id="recruiter-total-apps" class="stat-value">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card table-panel">
+              <h3>Recent Candidates</h3>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Candidate Name</th>
+                      <th>Target Role</th>
+                      <th>Applied Date</th>
+                      <th>Recruitment Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recruiter-recent-apps-body">
+                    <!-- Dynamic recent applications -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card status-panel">
+              <h3>Submissions By Status</h3>
+              <div id="status-breakdown-list" class="status-list">
+                <!-- Status counts list -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 7: Manage Jobs (Recruiter) -->
+        <div id="recruiter-jobs" class="view-container hidden">
+          <div class="card card-table">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Job Role</th>
+                    <th>Location</th>
+                    <th>Compensation</th>
+                    <th>Listing Status</th>
+                    <th>Applications</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="recruiter-jobs-table-body">
+                  <!-- Dynamic posted jobs list -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 8: Create / Edit Job Posting (Recruiter) -->
+        <div id="post-job-view" class="view-container hidden">
+          <div class="card max-w-xl animate-slide-up">
+            <h2 id="job-form-title">Create New Job Posting</h2>
+            <p class="section-desc">Provide detailed information to attract the best candidates.</p>
+            
+            <form onsubmit="handleSaveJob(event)" class="job-grid-form">
+              <input type="hidden" id="job-form-id">
+              
+              <div class="input-group col-span-2">
+                <label for="job-title"><i class="fa-solid fa-briefcase"></i> Job Title</label>
+                <input type="text" id="job-title" required placeholder="e.g. Senior Backend Engineer">
+              </div>
+
+              <div class="input-group">
+                <label for="job-location"><i class="fa-solid fa-location-dot"></i> Location</label>
+                <input type="text" id="job-location" required placeholder="e.g. San Francisco, CA or Remote">
+              </div>
+              <div class="input-group">
+                <label for="job-type"><i class="fa-solid fa-clock"></i> Job Type</label>
+                <select id="job-type" required>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Internship">Internship</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="job-category"><i class="fa-solid fa-layer-group"></i> Category</label>
+                <input type="text" id="job-category" required placeholder="e.g. Engineering, Design, Marketing">
+              </div>
+              <div class="input-group">
+                <label for="job-experience"><i class="fa-solid fa-user-gear"></i> Experience Level</label>
+                <select id="job-experience" required>
+                  <option value="Entry Level">Entry Level</option>
+                  <option value="Mid Level">Mid Level</option>
+                  <option value="Senior Level">Senior Level</option>
+                  <option value="Lead/Executive">Lead/Executive</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="job-salary"><i class="fa-solid fa-money-bill-wave"></i> Salary Range</label>
+                <input type="text" id="job-salary" placeholder="e.g. $120,000 - $140,000">
+              </div>
+              <div class="input-group" id="job-status-group">
+                <label for="job-status"><i class="fa-solid fa-circle-question"></i> Listing Status</label>
+                <select id="job-status">
+                  <option value="open">Open / Active</option>
+                  <option value="closed">Closed / Inactive</option>
+                </select>
+              </div>
+
+              <div class="input-group col-span-2">
+                <label for="job-description"><i class="fa-solid fa-align-left"></i> Job Description</label>
+                <textarea id="job-description" rows="6" required placeholder="Provide detailed roles, projects, and target outcomes..."></textarea>
+              </div>
+
+              <div class="input-group col-span-2">
+                <label for="job-requirements"><i class="fa-solid fa-list-check"></i> Candidate Requirements</label>
+                <textarea id="job-requirements" rows="4" required placeholder="Key skills, academic requirements, certificates..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-large col-span-2 recruiter-submit-btn">
+                Save Listing <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- View 9: View Job Applicants (Recruiter) -->
+        <div id="job-applicants-view" class="view-container hidden">
+          <button class="back-link" onclick="navigateTo('recruiter-jobs')">
+            <i class="fa-solid fa-arrow-left"></i> Back to Jobs
+          </button>
+          <div class="card header-card">
+            <h2 id="applicants-job-title">Job Title</h2>
+            <p id="applicants-job-subtitle" class="section-desc">Manage job applicants and statuses.</p>
+          </div>
+
+          <div id="applicants-list-container" class="applicants-grid">
+            <!-- Dynamic applicants details -->
+          </div>
+        </div>
+
+        <!-- View 10: Admin Dashboard (Admin) -->
+        <div id="admin-dash" class="view-container hidden">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon icon-blue"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">System Users</span>
+                <h3 id="admin-total-users" class="stat-value">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-indigo"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">System Jobs</span>
+                <h3 id="admin-total-jobs" class="stat-value">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-green"><i class="fa-solid fa-file-invoice"></i></div>
+              <div class="stat-data">
+                <span class="stat-label">Applications</span>
+                <h3 id="admin-total-apps" class="stat-value">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card table-panel">
+              <h3>Role Breakdowns</h3>
+              <div id="admin-roles-breakdown" class="status-list">
+                <!-- User roles counts -->
+              </div>
+            </div>
+
+            <div class="card table-panel">
+              <h3>Recent Listings</h3>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Job Posting</th>
+                      <th>Recruiter</th>
+                      <th>Location</th>
+                      <th>Created On</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-recent-jobs-body">
+                    <!-- Dynamic recent jobs -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 11: Admin User Management (Admin) -->
+        <div id="admin-users" class="view-container hidden">
+          <div class="card card-table">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User Details</th>
+                    <th>Email Address</th>
+                    <th>Role Mode</th>
+                    <th>Registered Date</th>
+                    <th>Moderation</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-table-body">
+                  <!-- Dynamic users list -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 12: Admin Job Moderation (Admin) -->
+        <div id="admin-jobs" class="view-container hidden">
+          <div class="card card-table">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Job Title</th>
+                    <th>Posted By</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Date Posted</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-jobs-table-body">
+                  <!-- Dynamic jobs list for moderation -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </section>
+
+  <!-- 3. MAIN SIGN-IN / SIGN-UP MODAL OVERLAY -->
+  <div id="auth-modal" class="modal-overlay hidden">
+    <div class="auth-card modal-card animate-slide-up">
+      <div class="modal-header">
+        <div class="logo">
+          <i class="fa-solid fa-bolt"></i>
+          <span>HireFlow</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <p class="tagline">Access recruiter dashboards or find candidate jobs.</p>
+
+      <!-- Tab Switchers -->
+      <div class="auth-tabs">
+        <button id="tab-login-btn" class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+        <button id="tab-register-btn" class="auth-tab" onclick="switchAuthTab('register')">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label for="login-email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+          <input type="email" id="login-email" required placeholder="name@company.com">
+        </div>
+        <div class="input-group">
+          <label for="login-password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit-btn">
+          Sign In <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+        
+        <div class="demo-accounts">
+          <p><i class="fa-solid fa-circle-info"></i> Seeds (Password: <strong>password123</strong>):</p>
+          <ul>
+            <li>Candidate: <span>candidate1@hireflow.com</span></li>
+            <li>Recruiter: <span>recruiter1@hireflow.com</span></li>
+            <li>Admin: <span>admin@hireflow.com</span></li>
+          </ul>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+        <div class="input-group">
+          <label for="reg-name"><i class="fa-regular fa-user"></i> Full Name</label>
+          <input type="text" id="reg-name" required placeholder="John Doe">
+        </div>
+        <div class="input-group">
+          <label for="reg-email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+          <input type="email" id="reg-email" required placeholder="name@company.com">
+        </div>
+        <div class="input-group">
+          <label for="reg-password"><i class="fa-solid fa-lock"></i> Password (min 6 chars)</label>
+          <input type="password" id="reg-password" required placeholder="••••••••">
+        </div>
+        <div class="input-group">
+          <label for="reg-role"><i class="fa-solid fa-user-tag"></i> Join As</label>
+          <select id="reg-role" required>
+            <option value="candidate">Candidate (Search & Apply)</option>
+            <option value="recruiter">Recruiter (Post jobs & Hire)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit-btn">
+          Create Profile <i class="fa-solid fa-user-plus"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. JOB APPLICATION SUBMISSION OVERLAY -->
+  <div id="apply-modal" class="modal-overlay hidden">
+    <div class="modal-card animate-slide-up">
+      <div class="modal-header">
+        <h3>Submit Application</h3>
+        <button class="modal-close-btn" onclick="closeApplyModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleSubmitApplication(event)" class="profile-form">
+        <input type="hidden" id="apply-job-id">
+        <div class="input-group">
+          <label for="apply-resume-url"><i class="fa-solid fa-file-pdf"></i> Resume URL</label>
+          <input type="url" id="apply-resume-url" required placeholder="https://drive.google.com/resume.pdf">
+          <small class="helper-text">Recruiters will use this link to retrieve your application files.</small>
+        </div>
+        <div class="input-group">
+          <label for="apply-cover-letter"><i class="fa-solid fa-paragraph"></i> Cover Letter (Optional)</label>
+          <textarea id="apply-cover-letter" rows="4" placeholder="Briefly pitch yourself to the hiring manager..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeApplyModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Client JavaScript -->
+  <script src="js/app.js"></script>
+</body>
+</html>
